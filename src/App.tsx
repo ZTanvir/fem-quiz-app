@@ -1,9 +1,10 @@
 import "./App.css";
+import ToggleTheme from "./components/ToggleTheme";
 
 function App() {
   return (
     <>
-      <p className="font-rubik font-normal">red</p>
+      <ToggleTheme />
     </>
   );
 }
