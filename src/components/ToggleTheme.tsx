@@ -24,9 +24,9 @@ const ToggleTheme = () => {
     <div>
       <label className="flex gap-0.5">
         {isDark ? (
-          <img src={iconDarkMoon} alt="dark moon" />
+          <img src={iconLightMoon} alt="dark moon" />
         ) : (
-          <img src={iconLightMoon} alt="light moon" />
+          <img src={iconDarkMoon} alt="light moon" />
         )}
         <input
           onChange={() => setIsDark(!isDark)}
@@ -37,9 +37,9 @@ const ToggleTheme = () => {
           checked={isDark}
         />
         {isDark ? (
-          <img src={iconDarkSun} alt="dark sun" />
+          <img src={iconLightSun} alt="dark sun" />
         ) : (
-          <img src={iconLightSun} alt="light sun" />
+          <img src={iconDarkSun} alt="light sun" />
         )}
       </label>
     </div>
