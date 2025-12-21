@@ -28,10 +28,14 @@ const Homepage = () => {
         {data &&
           data.map((quiz) => (
             <div
-              className="flex flex-wrap items-center gap-2 rounded-xl p-2 shadow-md"
+              className="flex cursor-pointer flex-wrap items-center gap-2 rounded-xl p-2 shadow-sm"
               key={quiz.id}
             >
-              <img src={`src/${quiz.icon}`} alt={`${quiz.title} icon`} />
+              <img
+                className="h-6 w-6"
+                src={`src/${quiz.icon}`}
+                alt={`${quiz.title} icon`}
+              />
               {quiz.title}
             </div>
           ))}
