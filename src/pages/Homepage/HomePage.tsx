@@ -32,7 +32,7 @@ const Homepage = () => {
               key={quiz.id}
             >
               <img
-                className="h-6 w-6"
+                className="h-6 w-6 object-contain"
                 src={`src/${quiz.icon}`}
                 alt={`${quiz.title} icon`}
               />
