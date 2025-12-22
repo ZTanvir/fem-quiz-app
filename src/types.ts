@@ -1,3 +1,5 @@
+import type { Dispatch, SetStateAction } from "react";
+
 export interface Question {
   question: string;
   options: [];
@@ -12,3 +14,10 @@ export interface QuizCategory {
 }
 
 export type Quiz = QuizCategory[];
+
+export type Theme = "light" | "dark";
+
+export type ThemeContextType = {
+  theme: "light" | "dark";
+  setTheme: Dispatch<SetStateAction<"light" | "dark">>;
+};

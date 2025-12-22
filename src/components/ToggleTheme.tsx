@@ -3,8 +3,10 @@ import iconDarkSun from "../assets/images/icon-sun-dark.svg";
 import iconLightMoon from "../assets/images/icon-moon-light.svg";
 import iconDarkMoon from "../assets/images/icon-moon-dark.svg";
 import { useEffect, useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 
 const ToggleTheme = () => {
+  const { theme, setTheme } = useTheme();
   const [isDark, setIsDark] = useState<boolean>(() => {
     const checkLocalStorage = localStorage.getItem("quizAppDarkTheme");
     if (!checkLocalStorage) {
@@ -17,6 +19,7 @@ const ToggleTheme = () => {
   });
 
   useEffect(() => {
+    setTheme(isDark ? "dark" : "light");
     localStorage.setItem("quizAppDarkTheme", JSON.stringify(isDark));
   }, [isDark]);
 
