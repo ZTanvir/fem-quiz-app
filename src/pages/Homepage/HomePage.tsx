@@ -19,19 +19,19 @@ const Homepage = () => {
         <ToggleTheme />
       </div>
 
-      <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div className="mt-8 grid grid-cols-1 gap-8 lg:mt-16 lg:grid-cols-2">
         <section>
-          <h1 className="dark:text-brand-snow-white flex flex-col text-6xl font-light">
+          <h1 className="dark:text-brand-snow-white flex flex-col text-4xl font-light lg:text-6xl">
             Welcome to the
             <span className="text-brand-mystic-navy dark:text-brand-snow-white font-bold">
               Frontend Quiz!
             </span>
           </h1>
-          <p className="text-brand-gray-navy dark:text-brand-ozone mt-4 text-xl italic">
+          <p className="text-brand-gray-navy dark:text-brand-ozone mt-2 text-lg italic lg:mt-4">
             Pick a subject to get started.
           </p>
         </section>
-        <div className="space-y-4">
+        <div className="space-y-4 lg:space-y-6">
           {data &&
             data.map((quiz) => (
               <Link key={quiz.id} className="block" to="/quiz">
