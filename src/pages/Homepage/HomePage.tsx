@@ -34,7 +34,12 @@ const Homepage = () => {
         <div className="space-y-4 lg:space-y-6">
           {data &&
             data.map((quiz) => (
-              <Link key={quiz.id} className="block" to="/quiz">
+              <Link
+                key={quiz.id}
+                className="block"
+                to="/quiz"
+                state={{ quizData: data.find((q) => q.id === quiz.id) }}
+              >
                 <div className="dark:bg-brand-stone-blue dark:text-brand-snow-white flex cursor-pointer flex-wrap items-center gap-2 rounded-xl px-2 py-4 shadow-sm">
                   <img
                     className="h-6 w-6 object-contain"
