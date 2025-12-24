@@ -14,6 +14,11 @@
   --color-brand-vivid-mint: #26d782;
   --color-brand-red-aura: #ee5454;
 }
+@layer components {
+  .btn-selected {
+  }
+}
+
 @font-face {
   font-family: Rubik;
   src: url("../src/assets/fonts/Rubik-VariableFont_wght.ttf") format("woff2");

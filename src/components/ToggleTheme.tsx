@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "../context/ThemeContext";
 
 const ToggleTheme = () => {
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
   const [isDark, setIsDark] = useState<boolean>(() => {
     const checkLocalStorage = localStorage.getItem("quizAppDarkTheme");
     if (!checkLocalStorage) {
@@ -27,9 +27,9 @@ const ToggleTheme = () => {
     <div>
       <label className="flex gap-0.5">
         {isDark ? (
-          <img src={iconLightMoon} alt="dark moon" />
+          <img src={iconLightSun} alt="dark sun" />
         ) : (
-          <img src={iconDarkMoon} alt="light moon" />
+          <img src={iconDarkSun} alt="light sun" />
         )}
         <input
           onChange={() => setIsDark(!isDark)}
@@ -39,10 +39,11 @@ const ToggleTheme = () => {
           id="toggle"
           checked={isDark}
         />
+
         {isDark ? (
-          <img src={iconLightSun} alt="dark sun" />
+          <img src={iconLightMoon} alt="dark moon" />
         ) : (
-          <img src={iconDarkSun} alt="light sun" />
+          <img src={iconDarkMoon} alt="light moon" />
         )}
       </label>
     </div>
