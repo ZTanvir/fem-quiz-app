@@ -1,13 +1,15 @@
 import { useLocation } from "react-router";
+import { useReducer, useState } from "react";
 import type { QuizCategory } from "../../types";
+import { quizReducer, quizInitialState } from "../../reducers/quizReducer";
 import ToggleTheme from "../../components/ToggleTheme";
-import { useState } from "react";
 
 const Quiz = () => {
   const location = useLocation();
   const { quizData }: { quizData: QuizCategory } = location.state || {};
   const [quizQuestions, setQuizQuestions] = useState(quizData.questions);
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
+  const [quizState, quizDispatch] = useReducer(quizReducer, quizInitialState);
 
   const quizOptions = quizQuestions[currentQuizIndex].options;
 
@@ -46,7 +48,10 @@ const Quiz = () => {
               </div>
             ))}
           </div>
-          <div></div>
+
+          <button className="bg-brand-purple hover:bg-brand-purple/30 mt-4 w-full justify-center rounded-xl px-3 py-2 text-white duration-300 hover:cursor-pointer">
+            Submit Answer
+          </button>
         </div>
       </div>
     </div>
