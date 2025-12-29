@@ -1,26 +1,19 @@
-type QuizActionType =
-  | { type: "checkQuiz"; quizType: string }
-  | { type: "score"; quizType: string };
+type QuizActionType = { type: "checkQuiz" } | { type: "score" };
+type QuizState = "idle" | "checkQuiz" | "score";
 
-const quizInitialState = { quizType: "idle" };
+const quizInitialState = "idle";
 
-const quizReducer = (
-  state: typeof quizInitialState,
-  action: QuizActionType,
-) => {
+const quizReducer = (state: QuizState, action: QuizActionType): QuizState => {
   console.log(state, action.type);
   switch (action.type) {
     case "checkQuiz":
-      return {
-        quizType: "checkQuiz",
-      };
+      return "checkQuiz";
+
     case "score":
-      return {
-        quizType: "score",
-      };
+      return "score";
 
     default:
-      throw new Error("Unknown action type");
+      throw state;
   }
 };
 
