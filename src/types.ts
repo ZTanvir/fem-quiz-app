@@ -2,7 +2,7 @@ import type { Dispatch, SetStateAction } from "react";
 
 export interface Question {
   question: string;
-  options: [];
+  options: string[];
   answer: string;
 }
 

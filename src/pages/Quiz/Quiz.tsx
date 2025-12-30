@@ -10,7 +10,9 @@ import iconCorrect from "../../assets/images/icon-incorrect.svg";
 const Quiz = () => {
   const location = useLocation();
   const { quizData }: { quizData: QuizCategory } = location.state || {};
-  const [quizQuestions, setQuizQuestions] = useState(quizData.questions);
+  const [quizQuestions, setQuizQuestions] = useState<QuizCategory["questions"]>(
+    quizData.questions,
+  );
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
   const [quizState, quizDispatch] = useReducer(quizReducer, quizInitialState);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -69,11 +71,13 @@ const Quiz = () => {
     }
   }
 
+  console.log(quizQuestions[0].answer);
+
   return (
     <div>
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <img src={`src/${quizData.icon}`} alt="" />
+          <img src={`src/${quizData.icon}`} alt="quiz topic" />
           <span className="text-brand-mystic-navy dark:text-brand-snow-white font-semibold">
             {quizData?.title}
           </span>
@@ -93,14 +97,25 @@ const Quiz = () => {
             {quizOptions.map((option, index) => (
               <div
                 onClick={() => setSelectedAnswer(option)}
-                className="dark:bg-brand-stone-blue group dark:border-brand-stone-blue rounded-xl border border-gray-200 bg-white p-2 shadow-lg hover:cursor-pointer dark:text-white"
+                className={`dark:bg-brand-stone-blue group rounded-xl border-2 bg-white p-2 shadow-sm hover:cursor-pointer dark:text-white ${quizState === "idle" && selectedAnswer === option ? "border-brand-purple dark:border-brand-purple" : "dark:border-brand-stone-blue border-gray-100/10"} `}
                 key={index}
               >
-                <div className="flex items-center gap-4">
-                  <span className="bg-brand-snow-white text-brand-gray-navy group-hover:text-brand-purple rounded-md px-3 py-2 transition duration-500 group-hover:bg-purple-300">
-                    {String.fromCharCode(65 + index)}
-                  </span>
-                  {option}
+                <div className="flex justify-between">
+                  <div className="flex items-center gap-4">
+                    <span
+                      className={`bg-brand-snow-white text-brand-gray-navy rounded-md px-3 py-2 transition duration-500 ${selectedAnswer === option ? "group-hover:bg-brand-purple group-hover:text-brand-snow-white" : "group-hover:bg-purple-300"}`}
+                    >
+                      {String.fromCharCode(65 + index)}
+                    </span>
+                    {option}
+                  </div>
+                  {(quizState === "checkQuiz" || quizState === "score") && (
+                    <img
+                      className="w-7"
+                      src={iconCorrect}
+                      alt="Correct symbol"
+                    />
+                  )}
                 </div>
               </div>
             ))}
