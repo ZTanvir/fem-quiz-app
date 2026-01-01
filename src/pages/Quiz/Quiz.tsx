@@ -94,6 +94,21 @@ const Quiz = () => {
     return "dark:border-brand-stone-blue border-gray-100/10";
   };
 
+  // return quiz icon based on quiz state and correct answer that match with selected answer with option
+  const getCheckQuizIcon = (option: string) => {
+    if (quizState !== "idle") {
+      if (isAnswerValid) {
+        if (selectedAnswer === option) {
+          return <img className="w-7" src={iconCorrect} alt="Error symbol" />;
+        }
+      } else {
+        if (selectedAnswer === option) {
+          return <img className="w-7" src={iconError} alt="Correct symbol" />;
+        }
+      }
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -118,7 +133,7 @@ const Quiz = () => {
             {quizOptions.map((option, index) => (
               <div
                 onClick={() => setSelectedAnswer(option)}
-                className={`dark:bg-brand-stone-blue group rounded-xl border-2 bg-white p-2 shadow-sm hover:cursor-pointer dark:text-white ${getBorderClass(option)}`}
+                className={`dark:bg-brand-stone-blue group rounded-xl border-2 bg-white p-2 shadow-sm transition duration-300 hover:cursor-pointer dark:text-white ${getBorderClass(option)}`}
                 key={index}
               >
                 <div className="flex justify-between">
@@ -130,23 +145,7 @@ const Quiz = () => {
                     </span>
                     {option}
                   </div>
-
-                  {quizState !== "idle" &&
-                    (isAnswerValid
-                      ? selectedAnswer === option && (
-                          <img
-                            className="w-7"
-                            src={iconCorrect}
-                            alt="Error symbol"
-                          />
-                        )
-                      : selectedAnswer === option && (
-                          <img
-                            className="w-7"
-                            src={iconError}
-                            alt="Correct symbol"
-                          />
-                        ))}
+                  {getCheckQuizIcon(option)}
                 </div>
               </div>
             ))}
