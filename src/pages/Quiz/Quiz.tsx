@@ -76,7 +76,7 @@ const Quiz = () => {
     selectedAnswer === quizQuestions[currentQuizIndex].answer;
 
   // return border color based on state and option quiz answer option match
-  const getBorderClass = (option: string) => {
+  const getBorderColorClass = (option: string) => {
     if (quizState === "idle") {
       if (selectedAnswer === option) {
         return "border-brand-purple dark:border-brand-purple";
@@ -108,6 +108,50 @@ const Quiz = () => {
       }
     }
   };
+  // return option serial text bg hover color based on quiz state , correct or incorrect answer
+  const getOptionSerialBgClass = (option: string) => {
+    if (quizState === "idle") {
+      if (selectedAnswer === option) {
+        return "group-hover:bg-brand-purple group-hover:text-brand-snow-white";
+      } else {
+        return "group-hover:bg-purple-300";
+      }
+    }
+  };
+
+  // return option serial text bg color based on quiz state ,correct or incorrect answer
+  const getOptionSerialHoverBgClass = (option: string) => {
+    if (quizState === "idle") {
+      return "bg-brand-snow-white";
+    }
+
+    // for checkQuiz and score state
+    if (isAnswerValid && selectedAnswer === option) {
+      //  valid answer
+      return "bg-brand-vivid-mint";
+    } else if (!isAnswerValid && selectedAnswer === option) {
+      // invalid answer
+      return "bg-brand-red-aura";
+    }
+    return "bg-brand-snow-white";
+  };
+
+  // return text bg color based on quiz state , correct or incorrect answer
+  const getOptionSerialTextColorClass = (option: string) => {
+    if (quizState === "idle") {
+      return "text-brand-gray-navy";
+    }
+
+    // for checkQuiz and score state
+    if (isAnswerValid && selectedAnswer === option) {
+      //  valid answer
+      return "text-brand-snow-white";
+    } else if (!isAnswerValid && selectedAnswer === option) {
+      // invalid answer
+      return "text-brand-snow-white";
+    }
+    return "text-brand-gray-navy";
+  };
 
   return (
     <div>
@@ -133,13 +177,13 @@ const Quiz = () => {
             {quizOptions.map((option, index) => (
               <div
                 onClick={() => setSelectedAnswer(option)}
-                className={`dark:bg-brand-stone-blue group rounded-xl border-2 bg-white p-2 shadow-sm transition duration-300 hover:cursor-pointer dark:text-white ${getBorderClass(option)}`}
+                className={`dark:bg-brand-stone-blue group rounded-xl border-2 bg-white p-2 shadow-sm transition duration-300 hover:cursor-pointer dark:text-white ${getBorderColorClass(option)}`}
                 key={index}
               >
                 <div className="flex justify-between">
                   <div className="flex items-center gap-4">
                     <span
-                      className={`${quizState === "idle" && "bg-brand-snow-white"} text-brand-gray-navy rounded-md px-3 py-2 transition duration-500 ${quizState === "idle" && (selectedAnswer === option ? "group-hover:bg-brand-purple group-hover:text-brand-snow-white" : "group-hover:bg-purple-300")}`}
+                      className={`rounded-md px-3 py-2 transition duration-500 ${getOptionSerialTextColorClass(option)} ${getOptionSerialHoverBgClass(option)} ${getOptionSerialBgClass(option)}`}
                     >
                       {String.fromCharCode(65 + index)}
                     </span>
