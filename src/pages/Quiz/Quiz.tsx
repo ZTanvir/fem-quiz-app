@@ -1,11 +1,11 @@
 import { useLocation } from "react-router";
 import { useReducer, useState } from "react";
 import { Link } from "react-router";
-import type { QuizCategory } from "../../types";
+import type { Question, QuizCategory } from "../../types";
 import { quizReducer, quizInitialState } from "../../reducers/quizReducer";
 import ToggleTheme from "../../components/ToggleTheme";
 import iconError from "../../assets/images/icon-error.svg";
-import iconCorrect from "../../assets/images/icon-incorrect.svg";
+import iconCorrect from "../../assets/images/icon-correct.svg";
 
 const Quiz = () => {
   const location = useLocation();
@@ -71,7 +71,28 @@ const Quiz = () => {
     }
   }
 
-  console.log(quizQuestions[0].answer);
+  const isAnswerValid =
+    (quizState === "checkQuiz" || quizState === "score") &&
+    selectedAnswer === quizQuestions[currentQuizIndex].answer;
+
+  // return border color based on state and option quiz answer option match
+  const getBorderClass = (option: string) => {
+    if (quizState === "idle") {
+      if (selectedAnswer === option) {
+        return "border-brand-purple dark:border-brand-purple";
+      }
+      return "dark:border-brand-stone-blue border-gray-100/10";
+    }
+    // for checkQuiz and score state
+    if (isAnswerValid && selectedAnswer === option) {
+      //  valid answer
+      return "border-brand-vivid-mint";
+    } else if (!isAnswerValid && selectedAnswer === option) {
+      // invalid answer
+      return "border-brand-red-aura";
+    }
+    return "dark:border-brand-stone-blue border-gray-100/10";
+  };
 
   return (
     <div>
@@ -97,25 +118,35 @@ const Quiz = () => {
             {quizOptions.map((option, index) => (
               <div
                 onClick={() => setSelectedAnswer(option)}
-                className={`dark:bg-brand-stone-blue group rounded-xl border-2 bg-white p-2 shadow-sm hover:cursor-pointer dark:text-white ${quizState === "idle" && selectedAnswer === option ? "border-brand-purple dark:border-brand-purple" : "dark:border-brand-stone-blue border-gray-100/10"} `}
+                className={`dark:bg-brand-stone-blue group rounded-xl border-2 bg-white p-2 shadow-sm hover:cursor-pointer dark:text-white ${getBorderClass(option)}`}
                 key={index}
               >
                 <div className="flex justify-between">
                   <div className="flex items-center gap-4">
                     <span
-                      className={`bg-brand-snow-white text-brand-gray-navy rounded-md px-3 py-2 transition duration-500 ${selectedAnswer === option ? "group-hover:bg-brand-purple group-hover:text-brand-snow-white" : "group-hover:bg-purple-300"}`}
+                      className={`${quizState === "idle" && "bg-brand-snow-white"} text-brand-gray-navy rounded-md px-3 py-2 transition duration-500 ${quizState === "idle" && (selectedAnswer === option ? "group-hover:bg-brand-purple group-hover:text-brand-snow-white" : "group-hover:bg-purple-300")}`}
                     >
                       {String.fromCharCode(65 + index)}
                     </span>
                     {option}
                   </div>
-                  {(quizState === "checkQuiz" || quizState === "score") && (
-                    <img
-                      className="w-7"
-                      src={iconCorrect}
-                      alt="Correct symbol"
-                    />
-                  )}
+
+                  {quizState !== "idle" &&
+                    (isAnswerValid
+                      ? selectedAnswer === option && (
+                          <img
+                            className="w-7"
+                            src={iconCorrect}
+                            alt="Error symbol"
+                          />
+                        )
+                      : selectedAnswer === option && (
+                          <img
+                            className="w-7"
+                            src={iconError}
+                            alt="Correct symbol"
+                          />
+                        ))}
                 </div>
               </div>
             ))}
