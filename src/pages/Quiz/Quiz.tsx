@@ -17,20 +17,33 @@ const Quiz = () => {
   const [quizState, quizDispatch] = useReducer(quizReducer, quizInitialState);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<boolean | null>(null);
+  const [score, setScore] = useState<number>(0);
 
   const quizOptions = quizQuestions[currentQuizIndex].options;
 
-  const handleQuizSubmitBtn = () => {
+  // check for valid answer in checkQuiz and score state
+  const isAnswerValid =
+    (quizState === "checkQuiz" || quizState === "score") &&
+    selectedAnswer === quizQuestions[currentQuizIndex].answer;
+
+  console.log(score);
+
+  const handleCheckQuizBtn = () => {
     if (!selectedAnswer) {
       setErrorMessage(true);
     } else {
-      quizDispatch({ type: "score" });
+      quizDispatch({ type: "checkQuiz" });
       setErrorMessage(false);
     }
   };
 
-  const handleCheckQuizBtn = () => {
-    quizDispatch({ type: "checkQuiz" });
+  const handleNextQuizBtn = () => {
+    //  check answer is correct
+    if (isAnswerValid) {
+      setScore(score + 1);
+    }
+    setCurrentQuizIndex(currentQuizIndex + 1);
+    quizDispatch({ type: "idle" });
   };
 
   // render button based on quiz state
@@ -39,7 +52,7 @@ const Quiz = () => {
       case "idle":
         return (
           <button
-            onClick={handleQuizSubmitBtn}
+            onClick={handleCheckQuizBtn}
             className="bg-brand-purple hover:bg-brand-purple/30 mt-4 flex w-full items-center justify-center rounded-xl py-2 text-white duration-300 hover:cursor-pointer"
           >
             Submit Answer
@@ -49,7 +62,7 @@ const Quiz = () => {
       case "checkQuiz":
         return (
           <button
-            onClick={handleCheckQuizBtn}
+            onClick={handleNextQuizBtn}
             className="bg-brand-purple hover:bg-brand-purple/30 mt-4 flex w-full items-center justify-center rounded-xl py-2 text-white duration-300 hover:cursor-pointer"
           >
             Next Question
@@ -70,10 +83,6 @@ const Quiz = () => {
         return "Submit Answer";
     }
   }
-
-  const isAnswerValid =
-    (quizState === "checkQuiz" || quizState === "score") &&
-    selectedAnswer === quizQuestions[currentQuizIndex].answer;
 
   // return border color based on state and option quiz answer option match
   const getBorderColorClass = (option: string) => {
@@ -97,13 +106,18 @@ const Quiz = () => {
   // return quiz icon based on quiz state and correct answer that match with selected answer with option
   const getCheckQuizIcon = (option: string) => {
     if (quizState !== "idle") {
+      // check is the answer is correct
       if (isAnswerValid) {
         if (selectedAnswer === option) {
-          return <img className="w-7" src={iconCorrect} alt="Error symbol" />;
+          return <img className="w-7" src={iconCorrect} alt="Correct symbol" />;
         }
       } else {
+        // check is the answer is incorrect
         if (selectedAnswer === option) {
-          return <img className="w-7" src={iconError} alt="Correct symbol" />;
+          return <img className="w-7" src={iconError} alt="Error symbol" />;
+          // check does the answer match with this option
+        } else if (quizQuestions[currentQuizIndex].answer === option) {
+          return <img className="w-7" src={iconCorrect} alt="Correct symbol" />;
         }
       }
     }
