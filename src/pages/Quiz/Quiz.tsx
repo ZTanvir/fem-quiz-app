@@ -10,7 +10,7 @@ import iconCorrect from "../../assets/images/icon-correct.svg";
 const Quiz = () => {
   const location = useLocation();
   const { quizData }: { quizData: QuizCategory } = location.state || {};
-  const [quizQuestions, setQuizQuestions] = useState<QuizCategory["questions"]>(
+  const [quizQuestions] = useState<QuizCategory["questions"]>(
     quizData.questions,
   );
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
@@ -191,10 +191,12 @@ const Quiz = () => {
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div>
-          <p className="text-shadow-brand-gray-navy font-light italic">
+          <p className="font-light text-gray-600 italic">
             Question {currentQuizIndex + 1} of {quizQuestions.length}
           </p>
-          <p>{quizQuestions[currentQuizIndex]?.question}</p>
+          <h1 className="text-brand-mystic-navy text-2xl font-semibold sm:text-3xl md:text-4xl lg:text-5xl">
+            {quizQuestions[currentQuizIndex]?.question}
+          </h1>
           <div></div>
         </div>
         <div>
