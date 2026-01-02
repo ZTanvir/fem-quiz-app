@@ -1,7 +1,7 @@
 import { useLocation } from "react-router";
 import { useReducer, useState } from "react";
 import { Link } from "react-router";
-import type { Question, QuizCategory } from "../../types";
+import type { QuizCategory } from "../../types";
 import { quizReducer, quizInitialState } from "../../reducers/quizReducer";
 import ToggleTheme from "../../components/ToggleTheme";
 import iconError from "../../assets/images/icon-error.svg";
@@ -24,16 +24,22 @@ const Quiz = () => {
   // check for valid answer in checkQuiz and score state
   const isAnswerValid =
     (quizState === "checkQuiz" || quizState === "score") &&
-    selectedAnswer === quizQuestions[currentQuizIndex].answer;
-
-  console.log(score);
+    selectedAnswer === quizQuestions[currentQuizIndex]?.answer;
 
   const handleCheckQuizBtn = () => {
-    if (!selectedAnswer) {
+    if (quizState === "idle" && !selectedAnswer) {
       setErrorMessage(true);
-    } else {
-      quizDispatch({ type: "checkQuiz" });
-      setErrorMessage(false);
+    } else if (quizState === "idle" && selectedAnswer) {
+      const isLastQuestion = quizQuestions.length - 1;
+      if (currentQuizIndex === isLastQuestion) {
+        // render redirect to score page button
+        quizDispatch({ type: "score" });
+        setErrorMessage(false);
+      } else {
+        // render check quiz button
+        quizDispatch({ type: "checkQuiz" });
+        setErrorMessage(false);
+      }
     }
   };
 
@@ -42,8 +48,12 @@ const Quiz = () => {
     if (isAnswerValid) {
       setScore(score + 1);
     }
-    setCurrentQuizIndex(currentQuizIndex + 1);
-    quizDispatch({ type: "idle" });
+    // check if the question are end
+    if (currentQuizIndex < quizQuestions.length) {
+      setCurrentQuizIndex(currentQuizIndex + 1);
+      setSelectedAnswer(null);
+      quizDispatch({ type: "idle" });
+    }
   };
 
   // render button based on quiz state
@@ -73,9 +83,10 @@ const Quiz = () => {
         return (
           <Link
             className="bg-brand-purple hover:bg-brand-purple/30 mt-4 flex w-full items-center justify-center rounded-xl py-2 text-white duration-300 hover:cursor-pointer"
+            state={score}
             to={"/quiz/result"}
           >
-            Next Question
+            Result
           </Link>
         );
 
@@ -183,14 +194,18 @@ const Quiz = () => {
           <p className="text-shadow-brand-gray-navy font-light italic">
             Question {currentQuizIndex + 1} of {quizQuestions.length}
           </p>
-          <p>{quizQuestions[currentQuizIndex].question}</p>
+          <p>{quizQuestions[currentQuizIndex]?.question}</p>
           <div></div>
         </div>
         <div>
           <div className="flex flex-col gap-4">
             {quizOptions.map((option, index) => (
               <div
-                onClick={() => setSelectedAnswer(option)}
+                onClick={() => {
+                  if (quizState === "idle") {
+                    setSelectedAnswer(option);
+                  }
+                }}
                 className={`dark:bg-brand-stone-blue group rounded-xl border-2 bg-white p-2 shadow-sm transition duration-300 hover:cursor-pointer dark:text-white ${getBorderColorClass(option)}`}
                 key={index}
               >
