@@ -6,6 +6,7 @@ import { quizReducer, quizInitialState } from "../../reducers/quizReducer";
 import ToggleTheme from "../../components/ToggleTheme";
 import iconError from "../../assets/images/icon-error.svg";
 import iconCorrect from "../../assets/images/icon-correct.svg";
+import ProgressBar from "../../components/ProgressBar";
 
 const Quiz = () => {
   const location = useLocation();
@@ -197,7 +198,6 @@ const Quiz = () => {
           <h1 className="text-brand-mystic-navy text-2xl font-semibold sm:text-3xl md:text-4xl lg:text-5xl">
             {quizQuestions[currentQuizIndex]?.question}
           </h1>
-          <div></div>
         </div>
         <div>
           <div className="flex flex-col gap-4">
