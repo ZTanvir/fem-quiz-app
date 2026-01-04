@@ -3,10 +3,10 @@ import { useReducer, useState } from "react";
 import { Link } from "react-router";
 import type { QuizCategory } from "../../types";
 import { quizReducer, quizInitialState } from "../../reducers/quizReducer";
+import ProgressBar from "../../components/ProgressBar";
 import ToggleTheme from "../../components/ToggleTheme";
 import iconError from "../../assets/images/icon-error.svg";
 import iconCorrect from "../../assets/images/icon-correct.svg";
-import ProgressBar from "../../components/ProgressBar";
 
 const Quiz = () => {
   const location = useLocation();
@@ -190,14 +190,20 @@ const Quiz = () => {
         </div>
         <ToggleTheme />
       </div>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div>
-          <p className="font-light text-gray-600 italic">
+      <div className="mt-10 grid grid-cols-1 gap-4 lg:mt-16 lg:grid-cols-2 lg:gap-16">
+        <div className="flex flex-col">
+          <p className="dark:text-brand-ozone my-2 font-light text-gray-600 italic">
             Question {currentQuizIndex + 1} of {quizQuestions.length}
           </p>
-          <h1 className="text-brand-mystic-navy text-2xl font-semibold sm:text-3xl md:text-4xl lg:text-5xl">
+          <h1 className="text-brand-mystic-navy dark:text-brand-snow-white text-2xl font-semibold sm:text-3xl md:text-4xl lg:text-5xl">
             {quizQuestions[currentQuizIndex]?.question}
           </h1>
+          <div className="my-2 lg:mt-auto lg:mb-14">
+            <ProgressBar
+              currentQuizNumber={currentQuizIndex}
+              totalQuestions={quizQuestions.length}
+            />
+          </div>
         </div>
         <div>
           <div className="flex flex-col gap-4">
