@@ -84,7 +84,7 @@ const Quiz = () => {
         return (
           <Link
             className="bg-brand-purple hover:bg-brand-purple/30 mt-4 flex w-full items-center justify-center rounded-xl py-2 text-white duration-300 hover:cursor-pointer"
-            state={score}
+            state={{ score, quizData }}
             to={"/quiz/result"}
           >
             Result
