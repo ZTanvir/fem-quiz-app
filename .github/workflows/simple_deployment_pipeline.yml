@@ -20,4 +20,4 @@ jobs:
       - name: Check style
         run: npm run lint
       - name: Build project
-        run: npm run Build
+        run: npm run build
