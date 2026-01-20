@@ -18,6 +18,6 @@ jobs:
       - name: Install dependency
         run: npm install
       - name: Check style
-        run: npm run eslint
+        run: npm run lint
       - name: Build project
-        run: npm run build
+        run: npm run Build
