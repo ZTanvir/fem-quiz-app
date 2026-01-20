@@ -1,0 +1,23 @@
+name: Simple deployment pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check_code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+      - name: Setup node 20
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+      - name: Install dependency
+        run: npm install
+      - name: Check style
+        run: npm run eslint
+      - name: Build project
+        run: npm run build
