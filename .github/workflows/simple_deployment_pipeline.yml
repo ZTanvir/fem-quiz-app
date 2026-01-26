@@ -21,5 +21,3 @@ jobs:
         run: npm run lint -w app/client
       - name: Build project
         run: npm run build -w app/client
-
-  deploy:
