@@ -9,7 +9,6 @@ const Homepage = () => {
     "http://localhost:3000/quizzes",
     fetcher,
   );
-  console.log(data);
 
   if (error) return <p>Error on getting quiz data.Try again</p>;
   if (isLoading) return <p>Loading...</p>;

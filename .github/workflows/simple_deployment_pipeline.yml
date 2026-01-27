@@ -21,3 +21,8 @@ jobs:
         run: npm run lint -w app/client
       - name: Build project
         run: npm run build -w app/client
+      - name: Create deployment
+        uses: sws2apps/render-deployment@main #consider using pin for dependabot auto update
+        with:
+          serviceId: ${{ secrets.RENDER_SERVICE_ID }}
+          apiKey: ${{ secrets.RENDER_API_KEY }}
