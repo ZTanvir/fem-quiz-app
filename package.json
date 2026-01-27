@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start:client": "npm run dev -w app/client",
-    "start:server": "npm run build -w app/client && npm run start -w app/server",
+    "start:server": "npm run start -w app/server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
