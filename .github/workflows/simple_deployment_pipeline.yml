@@ -25,7 +25,7 @@ jobs:
       - name: Build project
         run: npm run build -w app/client
       - name: Deploy to render (Production)
-        if: ${{github.event_name == 'pull_request'}}
+        if: ${{github.event_name == 'push'}}
         uses: sws2apps/render-deployment@main #consider using pin for dependabot auto update
         with:
           serviceId: ${{ secrets.RENDER_SERVICE_ID }}
