@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches: [main]
+    typed: [opened, synchronize]
 
 jobs:
   check_code:
@@ -14,14 +17,15 @@ jobs:
       - name: Setup node 20
         uses: actions/setup-node@v6
         with:
-          node-version: "20" 
+          node-version: "20"
       - name: Install dependency
         run: npm install
       - name: Check style
         run: npm run lint -w app/client
       - name: Build project
         run: npm run build -w app/client
-      - name: Create deployment
+      - name: Deploy to render (Production)
+        if: ${{github.event_name == "push"}}
         uses: sws2apps/render-deployment@main #consider using pin for dependabot auto update
         with:
           serviceId: ${{ secrets.RENDER_SERVICE_ID }}
