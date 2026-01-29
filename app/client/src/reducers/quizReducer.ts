@@ -7,7 +7,6 @@ type QuizState = "idle" | "checkQuiz" | "score";
 
 const quizInitialState = "idle";
 
-// sample comments
 // Quiz reducer
 const quizReducer = (state: QuizState, action: QuizActionType): QuizState => {
   switch (action.type) {
