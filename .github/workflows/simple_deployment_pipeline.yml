@@ -24,15 +24,11 @@ jobs:
         run: npm run lint -w app/client
       - name: Build project
         run: npm run build -w app/client
-      - name: commit list
+      - name: Deploy to render (Production)
         env:
-          CHECK_COMMIT: ${{ github.event.commits[0].message }}
-        run: echo "$CHECK_COMMIT"
-      # - name: Deploy to render (Production)
-      #   env:
-      #     CHECK_SKIP: ${{ contains(github.event.commits[0].message,'#skip')  }}
-      #   if: ${{github.event_name == 'push' && env.CHECK_SKIP != true  }}
-      #   uses: sws2apps/render-deployment@main #consider using pin for dependabot auto update
-      #   with:
-      #     serviceId: ${{ secrets.RENDER_SERVICE_ID }}
-      #     apiKey: ${{ secrets.RENDER_API_KEY }}
+          CHECK_SKIP: ${{ contains(github.event.commits[0].message,'#skip')  }}
+        if: ${{github.event_name == 'push' && env.CHECK_SKIP != 'true'  }}
+        uses: sws2apps/render-deployment@main #consider using pin for dependabot auto update
+        with:
+          serviceId: ${{ secrets.RENDER_SERVICE_ID }}
+          apiKey: ${{ secrets.RENDER_API_KEY }}
