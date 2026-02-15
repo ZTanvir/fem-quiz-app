@@ -24,7 +24,7 @@ jobs:
         run: echo "$COMMIT_MESSAGES"
       - name: commit message
         env:
-          COMMIT_MESSAGES: ${{github.event.commits.message}}
+          COMMIT_MESSAGES: ${{toJson(github.event.commits.message)}}
         run: echo "$COMMIT_MESSAGES"
       - name: check for skip commit
         env:
