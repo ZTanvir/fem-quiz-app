@@ -24,6 +24,10 @@ jobs:
         run: npm run lint -w app/client
       - name: Build project
         run: npm run build -w app/client
+      - name: commit list
+        env:
+          CHECK_COMMIT: ${{ github.event.commits.message }}
+        run: echo "$CHECK_COMMIT"
       - name: Deploy to render (Production)
         env:
           CHECK_SKIP: ${{ contains(github.event.commits[0].message,'#skip')  }}
