@@ -32,6 +32,7 @@ jobs:
 
   deploy_server:
     runs-on: ubuntu-latest
+    # check does #skip working
     needs:
       - check_code
     steps:
